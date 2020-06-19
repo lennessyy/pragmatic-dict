@@ -8,9 +8,9 @@ your users?
 
 #### Data and API
 	
-- Semantic information from a dictionary API (Merriam Webster or Oxford Dictionary of English API)
-- pronunciation info from Youglish API (videos of the term being said from videos on Youtube)
-- pragmatic information from Sketch Engine API (the most frequently used subject, verb, adverb associated with the searched term by category
+- Semantic information from a dictionary API ([Merriam Webster](https://dictionaryapi.com/) or Oxford Dictionary of English API)
+- pronunciation info from [Youglish](https://youglish.com/api/doc/js-api) API (videos of the term being said from videos on Youtube)
+- pragmatic information from [Sketch Engine](https://www.sketchengine.eu/documentation/api-documentation/#toggle-id-2) API (the most frequently used subject, verb, adverb associated with the searched term by category
 
 
 #### Project outline
