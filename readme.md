@@ -28,8 +28,8 @@ The Sketch Engine API is highly complicated with many options, but doesn't reall
 - User passwords
 
 
-#####User flow
+##### User flow
 - User enters a word to search, and the search button fires off three api calls, and have the results visualized in three columns, each per API. If the user wants to save a search, the site will prompt them to sign up for an account
 		
-#####Stretch Goals
+##### Stretch Goals
 - Allow user to choose different languages supported by Sketch Engine and Youglish, and make the site multilingual
