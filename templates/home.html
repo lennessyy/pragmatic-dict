@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Welcome {% if session['username'] %}Home - {{session['username']}} <a href="/logout">Logout</a>
+    {% else %}
+    <a style="text-align: right;" href="/login">Login</a>
+    {% endif %}</h1>
+
+<div id='search'>
+    <input class="input" type="text">
+    <button class="btn btn-info">Seach</button>
+</div>
+
+<div class="container" id="dictionary">
+    <ul id="definitions">
+
+    </ul>
+</div>
+
+{% if 'username' in session %}
+<form class="form" action="user/{{session['username']}}/feedback" method="POST">
+    {{ form.hidden_tag() }}
+
+    {% for field in form
+  if field.widget.input_type != 'hidden' %}
+    <p>
+        {{ field.label }}
+        {{ field }}
+
+        {% for error in field.errors %}
+        {{ error }}
+        {% endfor %}
+    </p>
+    {% endfor %}
+    <button type="submit">Submit</button>
+</form>
+{% endif %}
+{% endblock %}
