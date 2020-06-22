@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1>Welcome {% if session['username'] %}Home - {{session['username']}} <a href="/logout">Logout</a>
+<h1>Welcome {% if session['username'] %}Home - {{session['username']}}
 
     {% endif %}</h1>
 
@@ -35,7 +35,7 @@
                 </ul>
 
                 <div id="corpus-data">
-
+                    <!-- Google chart rendered here -->
                 </div>
 
                 <div id="gramrels" class="btn-group mr-2" role="group" aria-label="First group">
@@ -48,29 +48,27 @@
             <div class="align-items-center">
                 <div id="youglish"></div>
             </div>
+            {% if 'username' in session %}
+            <div class="row justify-content-md-center">
+
+                <form method="POST" id="note-form">
+                    {{ form.hidden_tag() }}
+
+                    {% for field in form if field.widget.input_type != 'hidden' %}
+                    {% for error in field.errors %}
+                    <span class="text-danger">{{ error }}</span>
+                    {% endfor %}
+                    {{ field(placeholder=field.label.text, class="form-control my-2") }}
+                    {% endfor %}
+
+                    <button class="btn btn-primary btn-sm btn-block">Save Note</button>
+                </form>
+
+            </div>
+            {% endif %}
         </div>
     </div>
 </div>
 
 
-
-
-{% if 'username' in session %}
-<form class="form" action="user/{{session['username']}}/feedback" method="POST">
-    {{ form.hidden_tag() }}
-
-    {% for field in form
-  if field.widget.input_type != 'hidden' %}
-    <p>
-        {{ field.label }}
-        {{ field }}
-
-        {% for error in field.errors %}
-        {{ error }}
-        {% endfor %}
-    </p>
-    {% endfor %}
-    <button type="submit">Submit</button>
-</form>
-{% endif %}
 {% endblock %}
