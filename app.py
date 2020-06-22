@@ -21,3 +21,17 @@ def return_dict(word):
     data = resp.json()
     definition = data[0]['meta']['app-shortdef']['def']
     return jsonify(definition)
+
+
+@app.route('/api/sketchengine/<word>/<pos>', methods=['GET','POST'])
+def return_gramrels(word, pos):
+    USERNAME = 'thor.sawin'
+    API_KEY = '7ca89afd71a44589a83c3ee8da64d143'
+    url = 'https://api.sketchengine.eu/bonito/run.cgi/wsketch'
+    data = requests.get(url, auth=(USERNAME, API_KEY), params={
+         'corpname': 'preloaded/bnc2',
+         'format': 'json',
+         'lemma': word,
+         'lpos': pos
+    }).json()
+    return jsonify(data['Gramrels'])

@@ -1,3 +1,4 @@
+let globalGramrels = {}
 $('button').on('click', handleClick)
 
 function hideAll() {
@@ -8,7 +9,12 @@ function hideAll() {
 async function handleClick() {
     hideAll()
     const word = $('input').val()
+    const pos = $("input[name='pos']:checked").val();
     createDefinitionView(word)
+    const gramrels = await axios.post(`api/sketchengine/${word}/${pos}`)
+    createCorpusDataView(gramrels)
+    collectGramrels(gramrels)
+    globalGramrels = gramrels
 }
 
 async function createDefinitionView(word) {

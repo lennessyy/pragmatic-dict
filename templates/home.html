@@ -8,6 +8,14 @@
 
 <div id='search'>
     <input class="input" type="text">
+    <label for="adverb">adverb</label>
+    <input id="adverb" type="radio" name="pos" value="-a">
+    <label for="adverb">noun</label>
+    <input id="adverb" type="radio" name="pos" value="-n">
+    <label for="adverb">verb</label>
+    <input id="adverb" type="radio" name="pos" value="-v">
+    <label for="adverb">adjective</label>
+    <input id="adverb" type="radio" name="pos" value="-j">
     <button class="btn btn-info">Seach</button>
 </div>
 
@@ -15,7 +23,16 @@
     <ul id="definitions">
 
     </ul>
+
+    <div id="corpus-data">
+
+    </div>
+
+    <div id="gramrels" class="btn-group mr-2" role="group" aria-label="First group">
+
+    </div>
 </div>
+
 
 {% if 'username' in session %}
 <form class="form" action="user/{{session['username']}}/feedback" method="POST">
