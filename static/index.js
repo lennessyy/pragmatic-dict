@@ -15,6 +15,7 @@ async function handleClick() {
     createCorpusDataView(gramrels)
     collectGramrels(gramrels)
     globalGramrels = gramrels
+    widget.fetch(word, 'English')
 }
 
 async function createDefinitionView(word) {

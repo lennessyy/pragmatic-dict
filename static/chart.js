@@ -39,53 +39,83 @@ function drawChart() {
     chart.draw(data, options);
 }
 
+//Function that collectes the gramrels coming back from api to update buttons
 function collectGramrels(gramrels) {
     $('#gramrels').empty()
     const collected_gramrels = []
     for (let gramrel of gramrels.data) {
-        if (gramrel.name == 'usage patterns' || gramrel.count == 0) {
-            continue
-        }
         collected_gramrels.push({ name: gramrel.name, count: gramrel.count })
     }
     console.log(collected_gramrels)
-    let i = 0
-    for (let gramrel of collected_gramrels) {
-        $(`<button type="button" id=${i} class="btn btn-secondary">${gramrel.name}</button>`).appendTo($('#gramrels'))
+
+    //the first item in the list is 'usage pattern', which we don't want, and therefore we start the loop at i=1
+    for (let i = 1; i < 6 && i < collected_gramrels.length; i++) {
+        $(`<button type="button" id=${i} class="btn btn-secondary">${collected_gramrels[i].name}</button>`).appendTo($('#gramrels'))
         $(`#${i}`).on('click', function () {
             createCorpusDataView(globalGramrels, this.id)
         })
-        i++;
-        if (i > 4) {
-            break
-        }
     }
     return collected_gramrels
 }
 
+//function to draw chart
 async function createCorpusDataView(gramrels, gramrelIdx = 1) {
+    const data = await prepareData(gramrels, gramrelIdx)
+
+    const options = configOptions()
+
+    const chart = new google.visualization.ColumnChart(document.getElementById('corpus-data'));
+    chart.draw(data, options);
+}
+
+async function prepareData(gramrels, gramrelIdx) {
     const data = new google.visualization.DataTable();
     data.addColumn('string', 'Word')
     data.addColumn('number', 'Count')
 
-    for (let word of gramrels.data[gramrelIdx].Words) {
+    const words = gramrels.data[gramrelIdx].Words.slice(1, 6)
+    sortWords(words)
+
+    //sort the results by absolute frequency
+    for (let word of words) {
         data.addRow([word.word, word.count])
         if (data.hg.length > 4) {
             break
         }
     }
 
+    // the default order is based on logDice, useful for learning collocation
+    // for (let word of gramrels.data[gramrelIdx].Words) {
+    //     data.addRow([word.word, word.count])
+    //     if (data.hg.length > 4) {
+    //         break
+    //     }
+    // }
+    return data
+}
+
+function configOptions() {
     const options = {
-        'title': 'Gramrels and counts',
-        'width': 500,
-        'height': 500,
+        title: 'Gramrels and counts',
+        width: 500,
+        height: 500,
         animation: {
-            "startup": true,
+            startup: true,
             duration: 1000,
             easing: 'out',
         },
     };
+    return options
+}
 
-    const chart = new google.visualization.ColumnChart(document.getElementById('corpus-data'));
-    chart.draw(data, options);
+function sortWords(words) {
+    function compare(word1, word2) {
+        if (word1.count > word2.count) {
+            return -1
+        } else if (word1.count < word2.count) {
+            return 1
+        } else return 0
+    }
+    words.sort(compare)
+    return words
 }
