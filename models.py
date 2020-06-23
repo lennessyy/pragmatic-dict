@@ -1,10 +1,8 @@
 from flask_sqlalchemy import SQLAlchemy
-# from flask_bcrypt import Bcrypt
-from sqlalchemy_utils import PasswordType
+from sqlalchemy_utils import PasswordType, ChoiceType
 
 db = SQLAlchemy()
 
-# bcrypt = Bcrypt()
 
 def connect_db(app):
     db.app = app
@@ -48,9 +46,18 @@ class User(db.Model):
 class Search(db.Model):
     __tablename__ = 'searches'
 
+    Types = [
+        (u'-n', u'-n'),
+        (u'-v', u'-v'),
+        (u'-j', u'-j'),
+        (u'-a', u'-a')
+    ]
+
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
 
     word = db.Column(db.String(100), nullable=False)
+
+    pos = db.Column(ChoiceType(Types), nullable=False, default=u'-n')
 
     note = db.Column(db.Text, nullable=False)
 

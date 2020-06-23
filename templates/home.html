@@ -1,12 +1,12 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1>Welcome {% if session['username'] %}Home - {{session['username']}}
+<h1>Welcome {% if session['user_id'] %}Home - {{g.user.first_name}}
 
     {% endif %}</h1>
 
 <div id='search'>
-    <input class="input" type="text">
+    <input class="input" type="text" id="search-word">
 
     <input id="adverb" type="radio" name="pos" value="-a">
     <label for="adverb">adverb</label>
@@ -48,17 +48,19 @@
             <div class="align-items-center">
                 <div id="youglish"></div>
             </div>
-            {% if 'username' in session %}
-            <div class="row justify-content-md-center">
 
-                <form method="POST" id="note-form">
+            {# Form used to submit notes#}
+            {% if 'user_id' in session %}
+            <div id="notes" class="row justify-content-md-center">
+
+                <form action="/{{g.user.id}}/notes" method="POST" id="note-form">
                     {{ form.hidden_tag() }}
 
                     {% for field in form if field.widget.input_type != 'hidden' %}
                     {% for error in field.errors %}
                     <span class="text-danger">{{ error }}</span>
                     {% endfor %}
-                    {{ field(placeholder=field.label.text, class="form-control my-2") }}
+                    {{ field(rows="7", placeholder=field.label.text, class="form-control my-2") }}
                     {% endfor %}
 
                     <button class="btn btn-primary btn-sm btn-block">Save Note</button>

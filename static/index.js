@@ -8,14 +8,15 @@ function hideAll() {
 
 async function handleClick() {
     hideAll()
-    const word = $('input').val()
+    const word = $('input').val().toLowerCase()
     const pos = $("input[name='pos']:checked").val();
     createDefinitionView(word)
-    const gramrels = await axios.post(`api/sketchengine/${word}/${pos}`)
+    const gramrels = await axios.post(`/api/sketchengine/${word}/${pos}`)
     createCorpusDataView(gramrels)
     collectGramrels(gramrels)
     globalGramrels = gramrels
-    widget.fetch(word, 'English')
+    await widget.fetch(word, 'English')
+    $('#note-form').show()
 }
 
 async function createDefinitionView(word) {
@@ -28,3 +29,11 @@ async function createDefinitionView(word) {
         `).appendTo($('#definitions'))
     }
 }
+
+document.addEventListener('DOMContentLoaded', function () {
+    if (wordToSearch) {
+        $('#search-word').val(wordToSearch)
+        $(`input[name='pos'][value=${pos}]`).prop("checked", true);
+        handleClick()
+    }
+})

@@ -1,8 +1,8 @@
 <html>
 
 <head>
-  <link rel="stylesheet" href="../static/styles.css">
-  <link rel="icon" href='../static/favicon-32x32.png' type='image/x-icon'>
+  <link rel="stylesheet" href="/static/styles.css">
+  <link rel="icon" href='/static/favicon-32x32.png' type='image/x-icon'>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
     integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
@@ -16,22 +16,33 @@
     crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js"></script>
   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-  <script src="../static/chart.js"></script>
+  <script src="/static/chart.js"></script>
+  {% if word_to_search %}
+  <script type="text/javascript">
+    const wordToSearch = {{ word_to_search| tojson }}
+    const pos = {{ pos| tojson}}
+  </script>
+  {% endif %}
   <title>Pragmatics Dictionary</title>
 </head>
 
 <body>
   <nav class="navbar navbar-light bg-light">
-    <a class="navbar-brand" href="#">Pragmatics Dictionary</a>
+    <a class="navbar-brand" href="/">Pragmatics Dictionary</a>
 
 
-    {% if 'username' not in session %}
-    <a href='/login' class="navbar-text mr-2">
-      Login
-    </a>
-    <a href="/register" class="navbar-text mr-5"></a>
+    {% if 'user_id' not in session %}
+    <span>
+      <a href='/login' class="navbar-text mr-2">
+        Login
+      </a>
+      <a href="/register" class="navbar-text mr-5">Register</a>
+    </span>
     {% else %}
-    <a class="navbar-text mr-5" href="/logout">Logout</a>
+    <span>
+      <a href="/{{g.user.id}}/notes" class="navbar-text mr-2">My notes</a>
+      <a class="navbar-text mr-5" href="/logout">Logout</a>
+    </span>
     {% endif %}
 
   </nav>
@@ -44,8 +55,8 @@
     {% block content %}
     {% endblock %}
   </div>
-  <script src='../static/youglish.js'></script>
-  <script src="../static/index.js"></script>
+  <script src='/static/youglish.js'></script>
+  <script src="/static/index.js"></script>
 </body>
 
 

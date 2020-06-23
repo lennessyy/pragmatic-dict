@@ -1,7 +1,7 @@
-from flask import Flask, session, render_template, redirect, request, jsonify
+from flask import Flask, session, render_template, redirect, request, jsonify, g, flash
 from flask_debugtoolbar import DebugToolbarExtension
 from models import User, Search, db, connect_db
-from forms import UserForm, SearchForm, LoginForm
+from forms import UserForm, NoteForm, LoginForm
 import requests
 
 app = Flask(__name__)
@@ -11,14 +11,22 @@ app.config["SQLALCHEMY_DATABASE_URI"] = "postgres:///prag_dict"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config["SQLALCHEMY_ECHO"] = True
 
+debug = DebugToolbarExtension(app)
 connect_db(app)
 db.create_all()
 
+def check_login():
+    if 'user_id' in session:
+        user = User.query.get(int(session['user_id']))
+        g.user = user
+
 @app.route('/')
 def home_page():
-    return render_template('home.html', form=SearchForm())
+    check_login()
+    return render_template('home.html', form=NoteForm())
 
 
+# Make a call to the Merriam Webster Dictionary API and get short definitions
 @app.route('/api/dictionary/<word>', methods=['GET','POST'])
 def return_dict(word):
     url = f'https://dictionaryapi.com/api/v3/references/learners/json/{word}'
@@ -30,7 +38,7 @@ def return_dict(word):
     definition = data[0]['meta']['app-shortdef']['def']
     return jsonify(definition)
 
-
+# Make a call to the Sketch Engine API and get the corpus data
 @app.route('/api/sketchengine/<word>/<pos>', methods=['GET','POST'])
 def return_gramrels(word, pos):
     USERNAME = 'thor.sawin'
@@ -42,6 +50,8 @@ def return_gramrels(word, pos):
          'lemma': word,
          'lpos': pos
     }).json()
+    session['word'] = word
+    session['pos'] = pos
     return jsonify(data['Gramrels'])
 
 
@@ -55,7 +65,7 @@ def register_page():
         first_name = form.data['first_name']
         last_name = form.data['last_name']
         new_user = User.register(username=username, email=email, pwd=password, first_name=first_name, last_name=last_name)
-        session['username'] = username
+        session['user_id'] = new_user.id
         db.session.add(new_user)
         db.session.commit()
         return redirect('/')
@@ -68,8 +78,10 @@ def login():
     if form.validate_on_submit():
         username = form.data['username']
         password = form.data['password']
-        if User.authenticate(username=username, pwd=password):
-            session['username'] = username
+        user = User.authenticate(username=username, pwd=password)
+        if user:
+            session['user_id'] = user.id
+            g.user = user
             return redirect('/')
         else:
             flash('Incorrect credentials')
@@ -77,7 +89,43 @@ def login():
     else:
         return render_template('login.html', form=form)
 
+
+@app.route('/<int:user_id>/notes', methods=['GET', 'POST'])
+def handle_notes(user_id):
+    g.user = User.query.get_or_404(user_id)
+    form = NoteForm()
+    if form.validate_on_submit():
+        search = Search(word=session['word'], pos=session['pos'], note=form.data['note'], user_id=user_id)
+        db.session.add(search)
+        db.session.commit()
+        return redirect('/')
+    else:
+        notes = g.user.searches
+        return render_template('notes.html', notes=notes)
+
+@app.route('/<int:user_id>/notes/<int:search_id>')
+def show_note(user_id, search_id):
+    g.user = User.query.get_or_404(user_id)
+    note = Search.query.get_or_404(search_id)
+    word = note.word
+    pos = note.pos.value
+    #add user authentication here
+    return render_template('home.html', word_to_search=word, pos=pos, form=NoteForm(obj=note))
+
+@app.route('/<int:user_id>/notes/<int:search_id>/delete')
+def delete_note(user_id, search_id):
+    g.user = User.query.get_or_404(user_id)
+    note = Search.query.get_or_404(search_id)
+    if note.user_id == g.user.id:
+        db.session.delete(note)
+        db.session.commit()
+        flash('Note deleted', 'success')
+        return redirect(f'/{user_id}/notes')
+    else:
+        flash('Permission denied', 'danger')
+        return redirect('/')
+
 @app.route('/logout', methods=['GET'])
 def logout():
-    del session['username']
+    del session['user_id']
     return redirect('/')

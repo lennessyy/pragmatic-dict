@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms_alchemy import model_form_factory
-from wtforms import StringField, PasswordField
+from wtforms import StringField, PasswordField, TextAreaField
 from models import User, Search, db
 from wtforms.validators import InputRequired
 
@@ -15,9 +15,8 @@ class UserForm(ModelForm):
     class Meta:
         model = User
 
-class SearchForm(ModelForm):
-    class Meta:
-        model = Search
+class NoteForm(FlaskForm):
+    note = TextAreaField('Notes to make on the search', validators=[InputRequired()])
 
 class LoginForm(FlaskForm):
     '''Login form'''
