@@ -11,23 +11,23 @@
     <input id="adverb" type="radio" name="pos" value="-a">
     <label for="adverb">adverb</label>
 
-    <input id="adverb" type="radio" name="pos" value="-n">
-    <label for="adverb">noun</label>
+    <input id="noun" type="radio" name="pos" value="-n">
+    <label for="noun">noun</label>
 
-    <input id="adverb" type="radio" name="pos" value="-v">
-    <label for="adverb">verb</label>
+    <input id="verb" type="radio" name="pos" value="-v">
+    <label for="verb">verb</label>
 
-    <input id="adverb" type="radio" name="pos" value="-j">
-    <label for="adverb">adjective</label>
+    <input id="adj" type="radio" name="pos" value="-j">
+    <label for="adj">adjective</label>
 
-    <button class="btn btn-info">Seach</button>
+    <button class="btn btn-info">Search</button>
 </div>
 
 <hr class='my-2'>
 
 <div class="my-2 container-fluid">
     <div class="row justify-content-between">
-        <div class="col-5">
+        <aside class="col-5">
 
             <div class="container justify-content-center" id="dictionary">
                 <ul id="definitions">
@@ -42,9 +42,9 @@
 
                 </div>
             </div>
-        </div>
+        </aside>
 
-        <div id="pronunciation" class="col-6 align-items-center">
+        <aside id="pronunciation" class="col-6 align-items-center">
             <div class="align-items-center">
                 <div id="youglish"></div>
             </div>
@@ -68,7 +68,7 @@
 
             </div>
             {% endif %}
-        </div>
+        </aside>
     </div>
 </div>
 

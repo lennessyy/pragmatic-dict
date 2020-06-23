@@ -10,6 +10,7 @@ app.config['SECRET_KEY'] = "carmelvalley"
 app.config["SQLALCHEMY_DATABASE_URI"] = "postgres:///prag_dict"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config["SQLALCHEMY_ECHO"] = True
+app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
 
 debug = DebugToolbarExtension(app)
 connect_db(app)

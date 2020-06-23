@@ -24,7 +24,7 @@ async function createDefinitionView(word) {
     $(`<h3>${word}</h3>`).insertBefore($('#definitions'))
     for (let def of resp.data) {
         $(`<li>
-        ${def}
+        ${parseString(def)}
         </li>   
         `).appendTo($('#definitions'))
     }

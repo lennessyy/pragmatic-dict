@@ -12,6 +12,7 @@
         <div class="card col-4 mx-2">
             <div class="card-body">
                 <h5 class="card-title">{{note.word}}</h5>
+                <h6 class="card-subtitle mb-2 text-muted"><small>Part of Speech: {{note.pos}}</small></h6>
                 <hr>
                 <p class="card-text">{{note.note}}</p>
                 <a href="/{{g.user.id}}/notes/{{note.id}}" class="card-link">Show</a>
