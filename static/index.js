@@ -16,12 +16,15 @@ async function handleClick() {
     collectGramrels(gramrels)
     globalGramrels = gramrels
     await widget.fetch(word, 'English')
+    $('#show-word').text(word)
     $('#note-form').show()
+    $('#dict-view').slideDown()
+    $('#player').slideDown()
 }
 
 async function createDefinitionView(word) {
     const resp = await axios.post(`/api/dictionary/${word}`)
-    $(`<h3>${word}</h3>`).insertBefore($('#definitions'))
+    $('#searched-word').text(word)
     for (let def of resp.data) {
         $(`<li>
         ${parseString(def)}

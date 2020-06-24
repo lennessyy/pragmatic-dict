@@ -96,10 +96,16 @@ def handle_notes(user_id):
     g.user = User.query.get_or_404(user_id)
     form = NoteForm()
     if form.validate_on_submit():
-        search = Search(word=session['word'], pos=session['pos'], note=form.data['note'], user_id=user_id)
-        db.session.add(search)
-        db.session.commit()
-        return redirect('/')
+        if len(Search.query.filter(Search.word==session['word'], Search.user_id == user_id).all()) == 0:
+            search = Search(word=session['word'], pos=session['pos'], note=form.data['note'], user_id=user_id)
+            db.session.add(search)
+            db.session.commit()
+            return redirect('/')
+        else:
+            search = Search.query.filter(Search.word==session['word'], Search.user_id == user_id).one()
+            search.note = form.data['note']
+            db.session.commit()
+            return redirect('/')
     else:
         notes = g.user.searches
         return render_template('notes.html', notes=notes)

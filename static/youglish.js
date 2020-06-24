@@ -10,12 +10,14 @@ var widget;
 function onYouglishAPIReady() {
     widget = new YG.Widget("youglish", {
         width: 500,
-        components: 76, //search box & caption 
+        components: 64, //search box & caption 
         events: {
             'onFetchDone': onFetchDone,
             'onVideoChange': onVideoChange,
             'onCaptionConsumed': onCaptionConsumed
-        }
+        },
+        backgroundColor: '#f4f6ff',
+        panelsBackgroundColor: '#ea907a'
     });
     // 4. process the query
     // widget.fetch("courage", "english");

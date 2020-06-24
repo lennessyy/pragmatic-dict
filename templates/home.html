@@ -1,38 +1,46 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1>Welcome {% if session['user_id'] %}Home - {{g.user.first_name}}
+<div id="header" class="row">
+    <h1 class="slogan">Discover words, in the Wild.</h1>
 
-    {% endif %}</h1>
+    <div id='search'>
+        <input class="input my-3 mx-3" type="text" id="search-word">
+        <button id="s-button" class="btn btn-info btn-sm">Search</button>
 
-<div id='search'>
-    <input class="input" type="text" id="search-word">
+        <br>
 
-    <input id="adverb" type="radio" name="pos" value="-a">
-    <label for="adverb">adverb</label>
+        <input id="adverb" type="radio" name="pos" value="-a">
+        <label for="adverb">adverb</label>
 
-    <input id="noun" type="radio" name="pos" value="-n">
-    <label for="noun">noun</label>
+        <input id="noun" type="radio" name="pos" value="-n">
+        <label for="noun">noun</label>
 
-    <input id="verb" type="radio" name="pos" value="-v">
-    <label for="verb">verb</label>
+        <input id="verb" type="radio" name="pos" value="-v">
+        <label for="verb">verb</label>
 
-    <input id="adj" type="radio" name="pos" value="-j">
-    <label for="adj">adjective</label>
+        <input id="adj" type="radio" name="pos" value="-j">
+        <label for="adj">adjective</label>
 
-    <button class="btn btn-info">Search</button>
+
+    </div>
 </div>
 
-<hr class='my-2'>
 
-<div class="my-2 container-fluid">
+<div class="my-2 container">
     <div class="row justify-content-between">
-        <aside class="col-5">
+        <aside class="col">
 
             <div class="container justify-content-center" id="dictionary">
-                <ul id="definitions">
+                <div id="dict-view" class="slide-fwd-center">
+                    <span class="h3 my-4" id="searched-word">
 
-                </ul>
+                    </span>
+
+                    <ul id="definitions">
+
+                    </ul>
+                </div>
 
                 <div id="corpus-data">
                     <!-- Google chart rendered here -->
@@ -44,9 +52,10 @@
             </div>
         </aside>
 
-        <aside id="pronunciation" class="col-6 align-items-center">
-            <div class="align-items-center">
-                <div id="youglish"></div>
+        <aside id="pronunciation" class="col align-items-center">
+            <div id="player" class="align-items-center">
+                <h5>How the word <span id="show-word"></span> sounds like in its natural habitat: </h5>
+                <a id="youglish" data-bkg-color="#ffcb74"></a>
             </div>
 
             {# Form used to submit notes#}
@@ -63,7 +72,7 @@
                     {{ field(rows="7", placeholder=field.label.text, class="form-control my-2") }}
                     {% endfor %}
 
-                    <button class="btn btn-primary btn-sm btn-block">Save Note</button>
+                    <button class="btn btn-info btn-sm btn-block">Save Note</button>
                 </form>
 
             </div>

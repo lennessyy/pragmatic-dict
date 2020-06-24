@@ -50,7 +50,7 @@ function collectGramrels(gramrels) {
 
     //the first item in the list is 'usage pattern', which we don't want, and therefore we start the loop at i=1
     for (let i = 1; i < 6 && i < collected_gramrels.length; i++) {
-        $(`<button type="button" id=${i} class="btn btn-secondary">${collected_gramrels[i].name}</button>`).appendTo($('#gramrels'))
+        $(`<button type="button" id=${i} class="btn btn-info">${collected_gramrels[i].name}</button>`).appendTo($('#gramrels'))
         $(`#${i}`).on('click', function () {
             createCorpusDataView(globalGramrels, this.id)
         })
@@ -96,7 +96,7 @@ async function prepareData(gramrels, gramrelIdx) {
 
 function configOptions() {
     const options = {
-        title: 'Gramrels and counts',
+        title: 'Collocations',
         width: 500,
         height: 500,
         animation: {
@@ -104,6 +104,8 @@ function configOptions() {
             duration: 1000,
             easing: 'out',
         },
+        backgroundColor: '#f4f6ff',
+        colors: ['#4f8a8b']
     };
     return options
 }
