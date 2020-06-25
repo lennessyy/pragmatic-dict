@@ -1,10 +1,16 @@
 #### The Goal of the website
 - Provide comprehensive information in semantics, pronunciation, pragmatic use on a searched word and vividly visualize data returned from select API. 
+- Deployed at: [Words in the Wild](http://words-in-the-wild.herokuapp.com)
 
 #### Site users
 - Learners of English (and other languages if more appropriate apis are found for other languages)
 - English speakers who conduct linguistic research
-your users?
+
+#### Stacks and libraries
+- Python/Flask
+- Bootstrap
+- jQuery
+- Axios
 
 #### Data and API
 	
