@@ -3,6 +3,7 @@ from flask import Flask, session, render_template, redirect, request, jsonify, g
 from flask_debugtoolbar import DebugToolbarExtension
 from models import User, Search, db, connect_db
 from forms import UserForm, NoteForm, LoginForm
+from secrets import merriam_webster, sketch
 import requests
 
 app = Flask(__name__)
@@ -34,7 +35,7 @@ def return_dict(word):
     url = f'https://dictionaryapi.com/api/v3/references/learners/json/{word}'
 
     resp = requests.get(url, params={
-        'key': "99fab773-b4fa-4665-a0e2-7940d86e3df0"
+        'key': merriam_webster
     })
     data = resp.json()
     definition = data[0]['meta']['app-shortdef']['def']
@@ -44,7 +45,7 @@ def return_dict(word):
 @app.route('/api/sketchengine/<word>/<pos>', methods=['GET','POST'])
 def return_gramrels(word, pos):
     USERNAME = 'thor.sawin'
-    API_KEY = '7ca89afd71a44589a83c3ee8da64d143'
+    API_KEY = sketch
     url = 'https://api.sketchengine.eu/bonito/run.cgi/wsketch'
     data = requests.get(url, auth=(USERNAME, API_KEY), params={
          'corpname': 'preloaded/bnc2',
