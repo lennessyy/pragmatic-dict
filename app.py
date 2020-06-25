@@ -19,7 +19,7 @@ db.create_all()
 
 def check_login():
     if 'user_id' in session:
-        user = User.query.get(int(session['user_id']))
+        user = User.query.get(session['user_id'])
         g.user = user
 
 @app.route('/')
