@@ -1,3 +1,4 @@
+import os
 from flask import Flask, session, render_template, redirect, request, jsonify, g, flash
 from flask_debugtoolbar import DebugToolbarExtension
 from models import User, Search, db, connect_db
@@ -6,8 +7,8 @@ import requests
 
 app = Flask(__name__)
 
-app.config['SECRET_KEY'] = "carmelvalley"
-app.config["SQLALCHEMY_DATABASE_URI"] = "postgres:///prag_dict"
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY',"carmelvalley")
+app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get('DATABASE_URL', "postgres:///prag_dict")
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config["SQLALCHEMY_ECHO"] = True
 app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
