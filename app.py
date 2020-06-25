@@ -95,6 +95,9 @@ def login():
 def handle_notes(user_id):
     g.user = User.query.get_or_404(user_id)
     form = NoteForm()
+    if user_id != session['user_id']:
+        flash('Access denied')
+        return redirect('/')
     if form.validate_on_submit():
         if len(Search.query.filter(Search.word==session['word'], Search.user_id == user_id).all()) == 0:
             search = Search(word=session['word'], pos=session['pos'], note=form.data['note'], user_id=user_id)
@@ -116,7 +119,9 @@ def show_note(user_id, search_id):
     note = Search.query.get_or_404(search_id)
     word = note.word
     pos = note.pos.value
-    #add user authentication here
+    if user_id != session['user_id']:
+        flash('Access denied')
+        return redirect('/')
     return render_template('home.html', word_to_search=word, pos=pos, form=NoteForm(obj=note))
 
 @app.route('/<int:user_id>/notes/<int:search_id>/delete')
