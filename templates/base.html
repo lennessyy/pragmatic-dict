@@ -41,7 +41,7 @@
     </span>
     {% else %}
     <span>
-      <a href="/{{g.user.id}}/notes" class="navbar-text mr-2">My notes</a>
+      <a href="/{{session['user_id']}}/notes" class="navbar-text mr-2">My notes</a>
       <a class="navbar-text mr-5" href="/logout">Logout</a>
     </span>
     {% endif %}
