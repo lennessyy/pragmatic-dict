@@ -72,7 +72,8 @@
                     {{ field(rows="7", placeholder=field.label.text, class="form-control my-2") }}
                     {% endfor %}
 
-                    <button class="btn btn-info btn-sm btn-block">Save Note</button>
+                    <button id="note-btn" data-uid='{{g.user.id}}' class="btn btn-info btn-sm btn-block">Save
+                        Note</button>
                 </form>
 
             </div>

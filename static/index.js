@@ -1,5 +1,5 @@
 let globalGramrels = {}
-$('button').on({
+$('#s-button').on({
     click: function () {
         handleClick();
         $('#note').val('Notes to make on the search')
@@ -12,6 +12,19 @@ $('#search-word').on('keyup', function (evt) {
     }
     handleClick()
     $('#note').val('Notes to make on the search')
+})
+
+$('#note-btn').on('click', function (evt) {
+    evt.preventDefault()
+    axios.post(`/${this.dataset.uid}/notes`, {
+        word: $('#search-word').val(),
+        pos: $("input[name='pos']:checked").val(),
+        user_id: Number(this.dataset.uid),
+        note: $('#note').val()
+    }).then(response => {
+        console.log(response)
+        alert(response.data)
+    })
 })
 
 function hideAll() {
@@ -63,6 +76,7 @@ async function createDefinitionView(word) {
     }
 }
 
+//fetch data from python session if there is 
 document.addEventListener('DOMContentLoaded', function () {
     if (wordToSearch) {
         $('#search-word').val(wordToSearch)

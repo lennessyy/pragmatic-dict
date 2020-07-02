@@ -3,7 +3,7 @@ from flask import Flask, session, render_template, redirect, request, jsonify, g
 from flask_debugtoolbar import DebugToolbarExtension
 from models import User, Search, db, connect_db
 from forms import UserForm, NoteForm, LoginForm
-from secrets import merriam_webster, sketch
+# from secrets import merriam_webster, sketch
 import requests
 
 app = Flask(__name__)
@@ -35,7 +35,7 @@ def return_dict(word):
     url = f'https://dictionaryapi.com/api/v3/references/learners/json/{word}'
 
     resp = requests.get(url, params={
-        'key': merriam_webster
+        'key': os.environ.get('mw_apikey', merriam_webster)
     })
     data = resp.json()
     definition = data[0]['meta']['app-shortdef']['def']
@@ -45,7 +45,7 @@ def return_dict(word):
 @app.route('/api/sketchengine/<word>/<pos>', methods=['GET','POST'])
 def return_gramrels(word, pos):
     USERNAME = 'thor.sawin'
-    API_KEY = sketch
+    API_KEY = os.environ.get('sketch_apikey', sketch)
     url = 'https://api.sketchengine.eu/bonito/run.cgi/wsketch'
     data = requests.get(url, auth=(USERNAME, API_KEY), params={
          'corpname': 'preloaded/bnc2',
@@ -92,28 +92,47 @@ def login():
     else:
         return render_template('login.html', form=form)
 
-
-@app.route('/<int:user_id>/notes', methods=['GET', 'POST'])
-def handle_notes(user_id):
+# show user their notes page
+@app.route('/<int:user_id>/notes', methods=['GET'])
+def show_notes(user_id):
     g.user = User.query.get_or_404(user_id)
     form = NoteForm()
     if user_id != session['user_id']:
         flash('Access denied')
         return redirect('/')
-    if form.validate_on_submit():
-        if len(Search.query.filter(Search.word==session['word'], Search.user_id == user_id).all()) == 0:
-            search = Search(word=session['word'], pos=session['pos'], note=form.data['note'], user_id=user_id)
-            db.session.add(search)
-            db.session.commit()
-            return redirect('/')
-        else:
-            search = Search.query.filter(Search.word==session['word'], Search.user_id == user_id).one()
-            search.note = form.data['note']
-            db.session.commit()
-            return redirect('/')
     else:
         notes = g.user.searches
         return render_template('notes.html', notes=notes)
+    # if form.validate_on_submit():
+    #     '''If word exists, update it '''
+    #     if len(Search.query.filter(Search.word==session['word'], Search.user_id == user_id).all()) == 0:
+    #         search = Search(word=session['word'], pos=session['pos'], note=form.data['note'], user_id=user_id)
+    #         db.session.add(search)
+    #         db.session.commit()
+    #         return redirect('/')
+    #     '''If not, create it and save'''
+    #     else:
+    #         search = Search.query.filter(Search.word==session['word'], Search.user_id == user_id).one()
+    #         search.note = form.data['note']
+    #         db.session.commit()
+    #         return redirect('/')
+    
+@app.route('/<int:user_id>/notes', methods=['POST'])
+def save_notes(user_id):
+    g.user = User.query.get_or_404(user_id)
+    word, pos, user_id, note = [request.json[k] for k in ('word', 'pos', 'user_id', 'note')]
+    if len(Search.query.filter(Search.word==word, Search.user_id == user_id).all()) == 0:
+        search = Search(word=word, pos=pos, note=note, user_id=user_id)
+        db.session.add(search)
+        db.session.commit()
+        return 'Note created'
+    else:
+        search = Search.query.filter(Search.word==word, Search.user_id == user_id).one()
+        search.note = note
+        db.session.commit()
+        return 'Note saved'
+
+    
 
 @app.route('/<int:user_id>/notes/<int:search_id>')
 def show_note(user_id, search_id):
