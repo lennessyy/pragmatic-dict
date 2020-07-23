@@ -3,7 +3,7 @@ from flask import Flask, session, render_template, redirect, request, jsonify, g
 from flask_debugtoolbar import DebugToolbarExtension
 from models import User, Search, db, connect_db
 from forms import UserForm, NoteForm, LoginForm
-# from secrets import merriam_webster, sketch
+from secrets import merriam_webster, sketch
 import requests
 
 app = Flask(__name__)

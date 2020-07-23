@@ -8,36 +8,6 @@ google.charts.load('current', { 'packages': ['corechart'] });
 // Callback that creates and populates a data table, 
 // instantiates the pie chart, passes in the data and
 // draws it.
-function drawChart() {
-
-    // Create the data table.
-    var data = new google.visualization.DataTable();
-    data.addColumn('string', 'Topping');
-    data.addColumn('number', 'Slices');
-    data.addRows([
-        ['Mushrooms', 3],
-        ['Onions', 1],
-        ['Olives', 1],
-        ['Zucchini', 1],
-        ['Pepperoni', 2]
-    ]);
-
-    // Set chart options
-    var options = {
-        'title': 'How Much Pizza I Ate Last Night',
-        'width': 500,
-        'height': 500,
-        animation: {
-            "startup": true,
-            duration: 1000,
-            easing: 'out',
-        },
-    };
-
-    // Instantiate and draw our chart, passing in some options.
-    const chart = new google.visualization.ColumnChart(document.getElementById('corpus-data'));
-    chart.draw(data, options);
-}
 
 //Function that collectes the gramrels coming back from api to update buttons
 function collectGramrels(gramrels) {
@@ -79,7 +49,7 @@ async function prepareData(gramrels, gramrelIdx) {
     //sort the results by absolute frequency
     for (let word of words) {
         data.addRow([word.word, word.count])
-        if (data.hg.length > 4) {
+        if (data.fg.length > 4) {
             break
         }
     }
