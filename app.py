@@ -103,19 +103,6 @@ def show_notes(user_id):
     else:
         notes = g.user.searches
         return render_template('notes.html', notes=notes)
-    # if form.validate_on_submit():
-    #     '''If word exists, update it '''
-    #     if len(Search.query.filter(Search.word==session['word'], Search.user_id == user_id).all()) == 0:
-    #         search = Search(word=session['word'], pos=session['pos'], note=form.data['note'], user_id=user_id)
-    #         db.session.add(search)
-    #         db.session.commit()
-    #         return redirect('/')
-    #     '''If not, create it and save'''
-    #     else:
-    #         search = Search.query.filter(Search.word==session['word'], Search.user_id == user_id).one()
-    #         search.note = form.data['note']
-    #         db.session.commit()
-    #         return redirect('/')
     
 @app.route('/<int:user_id>/notes', methods=['POST'])
 def save_notes(user_id):
