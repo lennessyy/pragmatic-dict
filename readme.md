@@ -23,8 +23,8 @@ Python 3.7 or above
 #### Data and API
 	
 - Semantic information from a dictionary API ([Merriam Webster](https://dictionaryapi.com/) or Oxford Dictionary of English API)
-- pronunciation info from [Youglish](https://youglish.com/api/doc/js-api) API (videos of the term being said from videos on YouTube)
-- pragmatic information from [Sketch Engine](https://www.sketchengine.eu/documentation/api-documentation/#toggle-id-2) API (the most frequently used subject, verb, adverb associated with the searched term by category
+- Phonetic information from [Youglish](https://youglish.com/api/doc/js-api) API (videos of the term being uttered from videos on YouTube)
+- Pragmatic data from [Sketch Engine](https://www.sketchengine.eu/documentation/api-documentation/#toggle-id-2) API, including the most frequent collocations with the searched word by their grammatical relationship with the searched word
 
 
 #### User Flow
