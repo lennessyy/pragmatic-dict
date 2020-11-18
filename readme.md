@@ -4,7 +4,10 @@
 
 #### Site users
 - Learners of English
-- Linguistic researchers 
+- Linguistic researchers
+
+#### Requirements
+Python 3.7 or above 
 
 #### Dev Quickstart
 - Run `pip install -r requirements.txt` to install dependencies
@@ -24,7 +27,7 @@
 - pragmatic information from [Sketch Engine](https://www.sketchengine.eu/documentation/api-documentation/#toggle-id-2) API (the most frequently used subject, verb, adverb associated with the searched term by category
 
 
-#### User flow
+#### User Flow
 - User enters a word to search and the corresponding part of speech
 - Click search, or press the `enter` key to conduct search
 - Search will return the definitions of the word, or an error message if the word is not found in the dictionary API
