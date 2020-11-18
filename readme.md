@@ -35,11 +35,11 @@
 #### Grammatical Relation Labels
 Sketch Engine groups collocations by their relationship to the searched word and has defined a set of short-hand labels for these relationships. Here is a list of the common relationships and their labels:
 
-- modifies: A word (usually a noun) that is modified by the searched word
+- modifies: A word that is modified by the searched word
 - modifier: A word that modifies the searched word
-- and/or: A word appears in parallel with the searched word connected by conjunctions `and` and `or` 
-- object_of: A predicate that has the searched word as its objects
-- subject_of: A predicate that has the searched word as its subjects 
+- and/or: A word that appears in parallel with the searched word connected by conjunctions `and` and `or` 
+- object_of: A predicate that has the searched word as its object
+- subject_of: A predicate that has the searched word as its subject 
 - object: A word that is the object of the searched word
 - pp_in-p: A word that is modified by a prepositional phrase beginning with the word `in` and the searched word
 	- Example:
@@ -50,4 +50,5 @@ Sketch Engine groups collocations by their relationship to the searched word and
 	- Example:
 		- Searched word: beauty
 		- pp\_obj_of-p: queen (queen of beauty)
+- adj_subject: A word that is the subject of a searched adjective
 		
