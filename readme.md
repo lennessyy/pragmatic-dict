@@ -44,11 +44,11 @@ Sketch Engine groups collocations by their relationship to the searched word and
 - object_of: A predicate that has the searched word as its object
 - subject_of: A predicate that has the searched word as its subject 
 - object: A word that is the object of the searched word
-- pp_in-p: A word that is modified by a prepositional phrase beginning with the word `in` and the searched word
+- pp_in-p: A word that appears in a prepositional phrase beginning with the word `in` that modifies the searched word
 	- Example:
 		- Searched word: eat
 		- pp_in-p: silence (eat in silence)
-- pp_of-p: A word that is modified by a prepositional phrase beginning with the word `of` and the searched word 
+- pp_of-p: A word that appears in a prepositional phrase beginning with the word `of` that modifies the searched word 
 - pp\_obj_of-p: A word that appears in a prepositional phrase beginning with the word `of` that has the searched word as its object
 	- Example:
 		- Searched word: beauty
