@@ -49,9 +49,9 @@ async function prepareData(gramrels, gramrelIdx) {
     //sort the results by absolute frequency
     for (let word of words) {
         data.addRow([word.word, word.count])
-        if (data.fg.length > 4) {
-            break
-        }
+        // if (data.fg.length > 4) {
+        //     break
+        // }
     }
 
     // the default order is based on logDice, useful for learning collocation
